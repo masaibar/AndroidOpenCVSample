@@ -89,38 +89,6 @@ class MainActivity : AppCompatActivity() {
                 )
                 Utils.matToBitmap(dst, dstBitmap)
                 image.setImageBitmap(dstBitmap)
-
-//                Imgproc.resize(
-//                    mat,
-//                    mat,
-//                    Size(
-//                        0.0,
-//                        0.0
-//                    ),
-//                    0.05,
-//                    0.05,
-//                    Imgproc.INTER_AREA
-//                )
-//                Imgproc.resize(
-//                    mat,
-//                    mat,
-//                    Size(
-//                        0.0,
-//                        0.0
-//                    ),
-//                    20.0,
-//                    20.0,
-//                    Imgproc.INTER_AREA
-//                )
-//
-//                val dstBitmap = Bitmap.createBitmap(
-//                    mat.size().width.toInt(),
-//                    mat.size().height.toInt(),
-//                    Bitmap.Config.ARGB_8888
-//                )
-//                Utils.matToBitmap(mat, dstBitmap)
-//
-//                image.setImageBitmap(dstBitmap)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
