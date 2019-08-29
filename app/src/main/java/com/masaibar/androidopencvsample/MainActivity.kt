@@ -15,7 +15,8 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        private const val K = 10
+        private const val MOSAIC_LEVEL = 10.0
+        private const val K = 64
     }
 
     private val onLoaderCallback = object : BaseLoaderCallback(this) {
@@ -25,11 +26,35 @@ class MainActivity : AppCompatActivity() {
             try {
                 val inputStream = assets.open("okawa_reiwa.jpg")
                 val bitmap = BitmapFactory.decodeStream(inputStream)
-                val cutout = Mat()
-                Utils.bitmapToMat(bitmap, cutout)
-                Imgproc.cvtColor(cutout, cutout, Imgproc.COLOR_BGRA2BGR)
+                val mat = Mat()
+                Utils.bitmapToMat(bitmap, mat)
 
-                val samples = cutout.reshape(1, cutout.cols() * cutout.rows())
+                                Imgproc.resize(
+                    mat,
+                    mat,
+                    Size(
+                        0.0,
+                        0.0
+                    ),
+                    1.0 / MOSAIC_LEVEL,
+                    1.0 / MOSAIC_LEVEL,
+                    Imgproc.INTER_AREA
+                )
+                Imgproc.resize(
+                    mat,
+                    mat,
+                    Size(
+                        0.0,
+                        0.0
+                    ),
+                    MOSAIC_LEVEL,
+                    MOSAIC_LEVEL,
+                    Imgproc.INTER_AREA
+                )
+
+                Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGRA2BGR)
+
+                val samples = mat.reshape(1, mat.cols() * mat.rows())
                 val samples32f = Mat()
                 samples.convertTo(samples32f, CvType.CV_32F, 1.0 / 255.0)
 
@@ -41,12 +66,12 @@ class MainActivity : AppCompatActivity() {
                 centers.convertTo(centers, CvType.CV_8UC1, 255.0)
                 centers.reshape(3)
 
-                var dst = cutout.clone()
+                var dst = mat.clone()
                 var rows = 0
                 var y = 0
-                while (y < cutout.rows()) {
+                while (y < mat.rows()) {
                     var x = 0
-                    while (x < cutout.cols()) {
+                    while (x < mat.cols()) {
                         val label = labels.get(rows, 0)[0].toInt()
                         val r = centers.get(label, 2)[0]
                         val g = centers.get(label, 1)[0]
