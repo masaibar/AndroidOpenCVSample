@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
                         0.0,
                         0.0
                     ),
-                    0.1,
-                    0.1,
+                    0.05,
+                    0.05,
                     Imgproc.INTER_AREA
                 )
                 Imgproc.resize(
@@ -44,8 +44,8 @@ class MainActivity : AppCompatActivity() {
                         0.0,
                         0.0
                     ),
-                    10.0,
-                    10.0,
+                    20.0,
+                    20.0,
                     Imgproc.INTER_AREA
                 )
 
